@@ -17,12 +17,12 @@ class DBHelper:
         finally:
             connection.close()
     
-    def add_input(self, data):
+    def add_input(self, category,date,latitude,longitude,description):
         connection = self.connect()
         try:
-            query = "INSERT INTO crimes (description) VALUE (%s);"
+            query = "INSERT INTO crimes (category, date, latitude, longitude, description) VALUE (%s,%s,%s,%s,%s);"
             with connection.cursor() as cursor:
-                cursor.execute(query,data)
+                cursor.execute(query, (category, date,latitude,longitude,description))
             connection.commit()
         finally:
             connection.close()
