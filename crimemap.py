@@ -1,7 +1,12 @@
-from dbhelper import DBHelper
 from flask import Flask
 from flask import request
 from flask import render_template
+
+import dbconfig
+if dbconfig.test:
+    from mockdbhelper import MockDbHelper as DBHelper
+else:
+    from dbhelper import DBHelper
 
 app = Flask(__name__)
 DB = DBHelper()
