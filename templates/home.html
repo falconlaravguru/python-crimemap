@@ -18,6 +18,7 @@
                 google.maps.event.addListener(map,'click', function(event) {
                     placeMarker(event.latLng);
                 });
+                placeCrimes({{ crimes | safe }});
             }
 
             function placeMarker(location) {
@@ -34,7 +35,17 @@
                 document.getElementById('latitude').value = location.lat();
                 document.getElementById('longitude').value = location.lng();
             }
-            
+
+            function placeCrimes(crimes) {
+                for ( var i=0; i<crimes.length; i++) {
+                    crime = new google.maps.Marker({
+                        position: new google.maps.LatLng(crimes[i].latitude, crimes[i]. longitude),
+                        map: map,
+                        title: crimes[i].date + "\n" +
+                        crimes[i].category + "\n" + crimes[i].description
+                    });
+                }
+            }
         </script>
         <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/home.css')}}" />
     </head>
@@ -47,7 +58,7 @@
         <div id="newcrimeform">
             <h2>Submit new crime</h2>
             <form action="/submitcrime" method="POST">
-                
+
                 <label for="category">Category</label>
                 <select name="category" id="category">
                     <option value="mugging">Mugging</option>
